@@ -34,7 +34,6 @@ public class FallingFloorLogic : MonoBehaviour {
         if(col.gameObject.tag == "Player" && !shouldFall)
         {
             shouldFall = true;
-            Debug.Log("collision enter sound");
             this.gameObject.GetComponents<AudioSource>()[0].Play();
         }
     }
