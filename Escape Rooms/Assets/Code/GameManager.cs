@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public AudioClip[] RandomAudio;
     public float MinTimeBetweenAudio, MaxTimeBetweenAudio;
     public GameObject demonPrefab;
+    public int Countdown = 0;
 
     private GameObject demon;
     private GameObject player;
@@ -129,7 +131,8 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                LoadNextLevel();
+                // Display the interlude screen for 5 seconds
+                DisplayInterludeScreen();
             }
         }
         else
@@ -153,6 +156,20 @@ public class GameManager : MonoBehaviour {
         Pause();
         this.CurrentRoom = 0;
         SceneManager.LoadScene("StartMenu");
+    }
+
+    private void DisplayInterludeScreen()
+    {
+        Countdown = 6;
+        SceneManager.LoadScene("Interlude");
+        ChangeCountdownText();
+    }
+
+    private void ChangeCountdownText()
+    {
+        Countdown--;
+        if(Countdown > 0){Invoke("ChangeCountdownText", 1f);}
+        else{LoadNextLevel();}
     }
 
     private void LoadNextLevel()
