@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     public float MinTimeBetweenAudio, MaxTimeBetweenAudio;
     public GameObject demonPrefab;
     public int Countdown = 0;
+    public float sensitivity = 2;
 
     private GameObject demon;
     private GameObject player;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour {
         if(!isPaused)
         {
             timer += Time.deltaTime;
-
+            
             // Generate a sound every random time
             TimeBetweenAudio -= Time.deltaTime;
            // Debug.Log(TimeBetweenAudio);
@@ -113,8 +114,12 @@ public class GameManager : MonoBehaviour {
 
     public GameObject GetPlayer()
     {
-        return Instantiate(playerPrefab) as GameObject;
+     player =  (Instantiate(playerPrefab) as GameObject);
+        GameObject.Find("Player(Clone)").GetComponent<PlayerController>().rotateSpeed = sensitivity; 
+        return player;
     }
+    
+
 
     public void EndLevel(bool isSuccess)
     {
@@ -178,7 +183,7 @@ public class GameManager : MonoBehaviour {
         
         if(Rooms.Length <= 0) return; //abord!
 
-        
+         
         SceneManager.LoadScene(Rooms[CurrentRoom]);
     }
 
@@ -186,4 +191,12 @@ public class GameManager : MonoBehaviour {
         Pause();
         SceneManager.LoadScene("EndingScreen");
     }
+
+    public void LoadSettings()
+    {
+        Pause();
+        SceneManager.LoadScene("Setting");
+    }
+
+    
 }
