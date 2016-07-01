@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
      {
-        
+        if(GameManager.instance.isPaused){ return; }
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         
@@ -41,13 +41,10 @@ public class PlayerController : MonoBehaviour {
         {
             if (isJumping == false)
             {
-                //Debug.Log("jumping");
                  Jump();
             }
             else if (GetComponent<Rigidbody>().velocity.y == 0f)
             {
-               // Debug.Log("can jump");
-
                 isJumping = false;
             }
           

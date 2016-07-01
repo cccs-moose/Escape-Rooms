@@ -14,6 +14,5 @@ public class roomMaker : MonoBehaviour {
 	public virtual void reset(){
 		player.transform.position = startingPoint.position;
 		player.transform.rotation = Quaternion.identity;
-		GameManager.instance.UnPause();
 	}
 }
