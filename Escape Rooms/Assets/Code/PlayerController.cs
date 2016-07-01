@@ -73,18 +73,18 @@ public class PlayerController : MonoBehaviour {
          }
 
 
-   
 
-            //Debug.Log("Controller");
-            if (moveHorizontal >= 0.03 || moveHorizontal <= -0.03)
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            this.transform.Rotate(new Vector3(0.0f, 0.0f, 0.0f));
+        
+        else if (moveHorizontal >= 0.03 || moveHorizontal <= -0.03)
             {
 
                 this.transform.Rotate(new Vector3(0.0f, rotateSpeed * Mathf.Sign(moveHorizontal), 0.0f));
 
 
             }
-            if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-            this.transform.Rotate(new Vector3(0.0f, 0.0f, 0.0f));
+           
 
 
 
