@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour {
     private float prevJumpVelocity;
     private Vector3 jumpForce;
     private float prevHorizontalVelocity;
-    private bool isController;
-    private bool isKeyboard;
+
     
     // Use this for initialization
     void Start() 
@@ -20,9 +19,8 @@ public class PlayerController : MonoBehaviour {
         prevJumpVelocity = 0;
         jumpForce = new Vector3(0, jumpStrength, 0);
         prevHorizontalVelocity = 0;
-        isController = false;
-        isKeyboard = false;
-        findInputDevice();
+
+  
     }
 
     // Update is called once per frame
@@ -42,12 +40,12 @@ public class PlayerController : MonoBehaviour {
         {
             if (isJumping == false)
             {
-                Debug.Log("jumping");
+                //Debug.Log("jumping");
                  Jump();
             }
             else if (GetComponent<Rigidbody>().velocity.y == 0f)
             {
-                Debug.Log("can jump");
+               // Debug.Log("can jump");
 
                 isJumping = false;
             }
@@ -75,8 +73,7 @@ public class PlayerController : MonoBehaviour {
          }
 
 
-        if (isController)
-        {
+   
 
             //Debug.Log("Controller");
             if (moveHorizontal >= 0.03 || moveHorizontal <= -0.03)
@@ -86,36 +83,17 @@ public class PlayerController : MonoBehaviour {
 
 
             }
-        }
-        else if (isKeyboard)
-        {
-           // Debug.Log("Keyboard");
-            if (moveHorizontal != 0)
-            {
-
-                this.transform.Rotate(new Vector3(0.0f, rotateSpeed * Mathf.Sign(moveHorizontal), 0.0f));
+            if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            this.transform.Rotate(new Vector3(0.0f, 0.0f, 0.0f));
 
 
-            }
-        }
 
-      
+
+
 
     }
 
-    void findInputDevice()
-    {
-        if (Input.anyKeyDown)
-        {
-            isKeyboard = true;
-            isController = false;
-        }
-        else
-        {
-            isKeyboard = false;
-            isController = true;
-        }
-    }
+
     void FixedUpdate()
     {
        // float changeForce = 
