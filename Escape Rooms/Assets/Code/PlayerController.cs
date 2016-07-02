@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public float rotateSpeed;
     public float jumpStrength;
-
     private bool isJumping;
     private float prevJumpVelocity;
     private Vector3 jumpForce;
@@ -83,6 +82,12 @@ public class PlayerController : MonoBehaviour {
 
             }
            
+
+
+
+
+
+
     }
 
 
