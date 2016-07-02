@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject GetPlayer()
     {
-        Gameobject player = Instantiate(playerPrefab) as GameObject;
+        GameObject player = Instantiate(playerPrefab) as GameObject;
         player.GetComponent<PlayerController>().rotateSpeed = sensitivity;
         return player;
     }
