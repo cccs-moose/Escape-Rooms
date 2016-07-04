@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
         TimeBetweenAudio = Random.Range(MinTimeBetweenAudio, MaxTimeBetweenAudio);
         audioSource = (gameObject.AddComponent<AudioSource>() as AudioSource);
         demonAppear = false;
+        Pause();
 	}
 	
 	// Update is called once per frame
@@ -156,6 +157,7 @@ public class GameManager : MonoBehaviour {
     public void LoadMenu()
     {
         this.CurrentRoom = 0;
+        Pause();
         SceneManager.LoadScene("StartMenu");
     }
 
