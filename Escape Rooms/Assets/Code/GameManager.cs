@@ -60,13 +60,14 @@ public class GameManager : MonoBehaviour {
 
                 if(!demonAppear && audioSource.clip.name == "I_will_kill_you-Grandpa-13673816")
                 {
+                    demonAppear = true;
                     demon = GetDemon();
-                    demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, -1.0f, -2.0f);
+                    demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, 0.0f, -2.0f);
                     demon.SetActive(true);
-                    Destroy(demon,0.5f);
+                    Destroy(demon,1f);
                 }
 
-                if (demon == null) demonAppear = true;
+                if (demon == null) demonAppear = false;
                 
             }
         }
