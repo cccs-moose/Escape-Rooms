@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour {
     public int Countdown = 0;
     public bool isPaused;
     public float sensitivity = 2;
+    public AudioSource audioSource;
 
     private GameObject demon;
     private GameObject player;
     private float timer,TimeBetweenAudio;
-    private AudioSource audioSource;
+    
     private bool demonAppear;
 
 	// Use this for initialization
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour {
         }
         DontDestroyOnLoad(this.gameObject);
         TimeBetweenAudio = Random.Range(MinTimeBetweenAudio, MaxTimeBetweenAudio);
-        audioSource = (gameObject.AddComponent<AudioSource>() as AudioSource);
+        this.audioSource = (gameObject.AddComponent<AudioSource>() as AudioSource);
         demonAppear = false;
         Pause();
 	}
@@ -60,11 +61,7 @@ public class GameManager : MonoBehaviour {
 
                 if(!demonAppear && audioSource.clip.name == "I_will_kill_you-Grandpa-13673816")
                 {
-                    demonAppear = true;
-                    demon = GetDemon();
-                    demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, 0.0f, -2.0f);
-                    demon.SetActive(true);
-                    Destroy(demon,1f);
+                    showDemon();
                 }
 
                 if (demon == null) demonAppear = false;
@@ -72,7 +69,16 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+    public void showDemon()
+    {
+        demonAppear = true;
+        demon = GetDemon();
+        demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, 0.0f, -2.0f);
+        //demon.transform.rotation = GameObject.Find("Player(Clone)").
+        demon.SetActive(true);
+        Destroy(demon, 1f);
 
+    }
     public void StartNewGame()
     {
         LoadNextLevel();
