@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,12 +13,15 @@ public class GameManager : MonoBehaviour {
     public AudioClip[] RandomAudio;
     public float MinTimeBetweenAudio, MaxTimeBetweenAudio;
     public GameObject demonPrefab;
+    public int Countdown = 0;
+    public bool isPaused;
+    public float sensitivity = 2;
+    public AudioSource audioSource;
 
     private GameObject demon;
     private GameObject player;
-    private bool isPaused;
     private float timer,TimeBetweenAudio;
-    private AudioSource audioSource;
+    
     private bool demonAppear;
 
 	// Use this for initialization
@@ -34,9 +38,9 @@ public class GameManager : MonoBehaviour {
         }
         DontDestroyOnLoad(this.gameObject);
         TimeBetweenAudio = Random.Range(MinTimeBetweenAudio, MaxTimeBetweenAudio);
-        audioSource = (gameObject.AddComponent<AudioSource>() as AudioSource);
-        Pause();
+        this.audioSource = (gameObject.AddComponent<AudioSource>() as AudioSource);
         demonAppear = false;
+        Pause();
 	}
 	
 	// Update is called once per frame
@@ -57,24 +61,30 @@ public class GameManager : MonoBehaviour {
 
                 if(!demonAppear && audioSource.clip.name == "I_will_kill_you-Grandpa-13673816")
                 {
-                    demon = GetDemon();
-                    demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, -1.0f, -2.0f);
-                    demon.SetActive(true);
-                    Destroy(demon,0.5f);
+                    showDemon();
                 }
 
-                if (demon == null) demonAppear = true;
+                if (demon == null) demonAppear = false;
                 
             }
         }
 	}
+    public void showDemon()
+    {
+        demonAppear = true;
+        demon = GetDemon();
+        demon.transform.position = GameObject.Find("Exit").transform.position + new Vector3(0.0f, 0.0f, -2.0f);
+        //demon.transform.rotation = GameObject.Find("Player(Clone)").
+        demon.SetActive(true);
+        Destroy(demon, 1f);
 
+    }
     public void StartNewGame()
     {
         LoadNextLevel();
-        isPaused = true;
+        isPaused = false;
         PlayerPrefs.DeleteAll();
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         timer = 0f;
         CurrentRoom = 0;
     }
@@ -95,13 +105,13 @@ public class GameManager : MonoBehaviour {
     public void Pause()
     {
         isPaused = true;
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     public void UnPause()
     {
         isPaused = false;
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
     }
 
     public GameObject GetDemon()
@@ -111,7 +121,9 @@ public class GameManager : MonoBehaviour {
 
     public GameObject GetPlayer()
     {
-        return Instantiate(playerPrefab) as GameObject;
+        GameObject player = Instantiate(playerPrefab) as GameObject;
+        player.GetComponent<PlayerController>().rotateSpeed = sensitivity;
+        return player;
     }
 
     public void EndLevel(bool isSuccess)
@@ -129,7 +141,8 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                LoadNextLevel();
+                // Display the interlude screen for 5 seconds
+                DisplayInterludeScreen();
             }
         }
         else
@@ -150,17 +163,30 @@ public class GameManager : MonoBehaviour {
 
     public void LoadMenu()
     {
-        Pause();
         this.CurrentRoom = 0;
+        Pause();
         SceneManager.LoadScene("StartMenu");
     }
 
-    private void LoadNextLevel()
+    private void DisplayInterludeScreen()
     {
+        Countdown = 6;
+        Application.LoadLevelAdditive("Interlude");
+        GameObject.Find("Room").GetComponent<roomMaker>().reset();
         Pause();
-        
-        if(Rooms.Length <= 0) return; //abord!
+        ChangeCountdownText();
+    }
 
+    private void ChangeCountdownText()
+    {
+        Countdown--;
+        if(Countdown > 0){Invoke("ChangeCountdownText", 1f);}
+        else{UnPause();LoadNextLevel();}
+    }
+
+    private void LoadNextLevel()
+    {   
+        if(Rooms.Length <= 0) return; //abord!
         
         SceneManager.LoadScene(Rooms[CurrentRoom]);
     }
@@ -168,5 +194,11 @@ public class GameManager : MonoBehaviour {
     private void LoadStats(){
         Pause();
         SceneManager.LoadScene("EndingScreen");
+    }
+
+    public void LoadSettings()
+    {
+        Pause();
+        SceneManager.LoadScene("Setting");
     }
 }

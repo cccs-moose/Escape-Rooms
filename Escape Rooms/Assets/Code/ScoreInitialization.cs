@@ -10,7 +10,7 @@ public class ScoreInitialization : MonoBehaviour {
 	void Start () {
 		RoomScore.text = "";
 		int nbRooms = GameManager.instance.NumberOfRooms;
-		for(int i = 1; i <= nbRooms; i++){
+		for(int i = 0; i < nbRooms; i++){
 			RoomScore.text += "Room " + i + " Fails : " + PlayerPrefs.GetInt("nFailRoom" + i) + "\n";
 		}
 	}

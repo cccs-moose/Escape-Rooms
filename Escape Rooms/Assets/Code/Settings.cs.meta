@@ -1,12 +1,10 @@
 fileFormatVersion: 2
-guid: 6ae66c486f913d54d990de80d391488e
-timeCreated: 1469157733
+guid: 2b3c7aabca787314ab4114e59886662c
+timeCreated: 1467391992
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences:
-  - playerPrefab: {instanceID: 0}
-  - demonPrefab: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
